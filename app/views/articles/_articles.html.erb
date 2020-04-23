@@ -1,16 +1,18 @@
 <% @articles.each do |article| %>
 <div class="row mt-4 justify-content-md-center">
-    <div class="col-4">
+    <div class="col-8">
         <div class="card text-center shadow mb-5 bg-white rounded">
             <div class="card-header font-italic">
-                By <%= article.user.username.capitalize%>
+                By <%= link_to article.user.username.capitalize, article.user %>
             </div>
             <div class="card-body">
                 <h5 class="card-title"><%= link_to article.title, article_path(article), class: "text-success"%></h5>
                 <p class="card-text"><%= truncate(article.description, length: 100)%></p>
                 <%= link_to "View", article_path(article), class: "btn btn-outline-success" %>
-                <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-info" %>
-                <%= link_to "Delete", article_path(article), method: :delete, class: "btn btn-outline-danger" %>
+                <% if logged_in? && current_user == article.user %>
+                    <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-info" %>
+                    <%= link_to "Delete", article_path(article), method: :delete, class: "btn btn-outline-danger" %>
+                <% end %>
             </div>
             <div class="card-footer text-muted">
                 Created <%=time_ago_in_words(article.created_at)%> ago,
