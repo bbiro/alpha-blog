@@ -11,6 +11,9 @@
                     
                     <div class="card-body">
                         <div class="card-text text-left"><%= simple_format(@article.description)%></div>
+                        <% if @article.categories.any?%>
+                            <p class="text-left">Categories: <%= render @article.categories %></p>
+                        <%end%>
                         <% if logged_in? && (current_user == @article.user || current_user.admin?)%>
                             <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-info" %>
                             <%= link_to "Delete", article_path(@article), method: :delete, class: "btn btn-outline-danger" %>
